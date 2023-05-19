@@ -87,7 +87,7 @@ app.put("/api/movies/:id", (req, res) => {
       if (result.nModified === 0) {
         res.status(204).end(); // Return a status code 204 if no movie was updated
       } else {
-        res.json({ message: `Updated a movie with ID: ${movieID}` }); // Return a success message
+        res.json({ message: `Updated a movie with ID: ${movieID}` });
       }
     })
     .catch((err) => {
@@ -105,7 +105,7 @@ app.delete("/api/movies/:id", (req, res) => {
       } else {
         res.json({
           message: `Deleted a movie with ID: ${movieID}`,
-        }); // Return a success message
+        });
       }
     })
     .catch((err) => {
