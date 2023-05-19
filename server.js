@@ -80,12 +80,12 @@ app.get("/api/movies/:id", (req, res) => {
 
 // PUT /api/movies/:id
 app.put("/api/movies/:id", (req, res) => {
-  const movieId = req.params.id; // Get the movieId from the route parameter
+  const movieId = req.params.id;
   const movieData = req.body; // Get the updated movie data from the request body
   db.updateMovieById(movieData, movieId)
     .then((result) => {
       if (result.nModified === 0) {
-        res.status(204).end(); // Return a status code 204 if no movie was updated
+        res.status(204).end();
       } else {
         res.json({ message: `Updated a movie with ID: ${movieID}` });
       }
@@ -97,11 +97,11 @@ app.put("/api/movies/:id", (req, res) => {
 
 // DELETE /api/movies/:id
 app.delete("/api/movies/:id", (req, res) => {
-  const movieId = req.params.id; // Get the movieId from the route parameter
+  const movieId = req.params.id;
   db.deleteMovieById(movieId)
     .then((result) => {
       if (result.deletedCount === 0) {
-        res.status(204).end(); // Return a status code 204 if no movie was deleted
+        res.status(204).end();
       } else {
         res.json({
           message: `Deleted a movie with ID: ${movieID}`,
