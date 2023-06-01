@@ -16,8 +16,15 @@ require("dotenv").config();
 const app = express();
 const MoviesDB = require("./modules/moviesDB.js");
 const db = new MoviesDB();
+const path = require("path");
 
 const HTTP_PORT = process.env.PORT || 8080;
+
+app.use(express.static(__dirname));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 
 app.use(cors());
 app.use(express.json());
@@ -26,16 +33,7 @@ app.get("/", (req, res) => {
   res.json({ message: "API Listening" });
 });
 
-db.initialize(process.env.MONGODB_CONN_STRING)
-  .then(() => {
-    app.listen(HTTP_PORT, () => {
-      console.log(`Server listening on port ${HTTP_PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
+// Routes
 // POST /api/movies (Add new)
 app.post("/api/movies", (req, res) => {
   const movie = req.body; // Get the movie data from the request body
@@ -87,7 +85,7 @@ app.put("/api/movies/:id", (req, res) => {
       if (result.nModified === 0) {
         res.status(204).end();
       } else {
-        res.json({ message: `Updated a movie with ID: ${movieID}` });
+        res.json({ message: `Updated a movie with ID: ${movieId}` });
       }
     })
     .catch((err) => {
@@ -104,7 +102,7 @@ app.delete("/api/movies/:id", (req, res) => {
         res.status(204).end();
       } else {
         res.json({
-          message: `Deleted a movie with ID: ${movieID}`,
+          message: `Deleted a movie with ID: ${movieId}`,
         });
       }
     })
@@ -112,3 +110,20 @@ app.delete("/api/movies/:id", (req, res) => {
       res.status(500).json({ error: "Failed to delete movie" });
     });
 });
+
+// Error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
+// Initialization
+db.initialize(process.env.MONGODB_CONN_STRING)
+  .then(() => {
+    app.listen(HTTP_PORT, () => {
+      console.log(`Server listening on port ${HTTP_PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
