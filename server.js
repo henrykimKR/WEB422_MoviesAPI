@@ -16,13 +16,14 @@ require("dotenv").config();
 const app = express();
 const MoviesDB = require("./modules/moviesDB.js");
 const db = new MoviesDB();
-const path = require("path");
+const path = require("path"); //
 
 const HTTP_PORT = process.env.PORT || 8080;
 
 app.use(express.static(__dirname));
 
 app.get("/", (req, res) => {
+  //
   res.sendFile(path.join(__dirname, "index.html"));
 });
 

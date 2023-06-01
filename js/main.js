@@ -31,8 +31,8 @@ function loadMovieData(title = null) {
       return res.json();
     })
     .then((data) => {
-      creatingtrElements(data);
-      clickEventsToShowModal(data);
+      addRowsToTable(data);
+      addClickEventsToRows(data);
     });
 }
 
