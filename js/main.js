@@ -97,8 +97,8 @@ function addClickEventsToRows() {
         `;
 
       const detailsModal = new bootstrap.Modal(
-        document.getElementById("detailsModal"),
-        { backdrop: "static", keyboard: false, focus: true }
+        document.querySelector("#detailsModal") //,
+        //{ backdrop: "static", keyboard: false, focus: true }
       );
       detailsModal.show();
     });
