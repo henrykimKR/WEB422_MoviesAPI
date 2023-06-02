@@ -18,8 +18,8 @@ const perPage = 10;
 // Loading The Data
 function loadMovieData(title = null) {
   let url = title
-    ? `https://angry-puce-kitten.cyclic.app/api/movies?page=${page}&perPage=${perPage}&title=${title}`
-    : `https://angry-puce-kitten.cyclic.app/api/movies?page=${page}&perPage=${perPage}`;
+    ? `/api/movies?page=${page}&perPage=${perPage}&title=${title}`
+    : `/api/movies?page=${page}&perPage=${perPage}`;
 
   // Saves an element with a .pagination class to a pagination variable.
   const pagination = document.querySelector(".pagination");
@@ -30,7 +30,6 @@ function loadMovieData(title = null) {
     : pagination.classList.remove("d-none");
   fetch(url)
     .then((res) => {
-      console.log(res); // 확인용
       return res.json();
     })
     .then((data) => {
@@ -75,39 +74,33 @@ function addClickEventsToRows() {
   rows.forEach((row) => {
     row.addEventListener("click", () => {
       const movieId = row.getAttribute("data-id");
-      // 확인용
-      console.log(movieId);
-      const url = `https://angry-puce-kitten.cyclic.app/api/movies/${movieId}`;
-      console.log(url);
-
-      fetch(`https://angry-puce-kitten.cyclic.app/api/movies/${movieId}`)
+      fetch(`/api/movies/${movieId}`)
         .then((res) => res.json())
         .then((movieData) => {
-          console.log(movieData); // 확인용
           const modalTitle = document.querySelector(
             "#detailsModal .modal-title"
           );
           modalTitle.innerHTML = movieData.title;
 
-          console.log(movieData.awards); // 확인용
-
           const modalBody = document.querySelector("#detailsModal .modal-body");
           modalBody.innerHTML = `
-            <img class="img-fluid w-100" src="${movieData.poster}"><br><br>
-            <strong>Directed By:</strong> ${
-              movieData.directors ? movieData.directors.join(", ") : "N/A"
-            }<br><br>
-            <p>${movieData.fullplot}</p>
-            <strong>Cast:</strong> ${
-              movieData.cast ? movieData.cast.join(", ") : "N/A"
-            }<br><br>
-            <strong>Awards:</strong> ${
-              movieData.awards ? movieData.awards.text : "N/A"
-            }<br>
-            <strong>IMDB Rating:</strong> ${
-              movieData.imdb ? movieData.imdb.rating : "N/A"
-            } (${movieData.imdb ? movieData.imdb.votes : "N/A"} votes)
-            `;
+          ${
+            movieData.poster
+              ? `<img class="img-fluid w-100" alt="movie picture" src="${movieData.poster}"><br><br>`
+              : ""
+          }
+          <strong>Directed By:</strong> ${movieData.directors.join(
+            ", "
+          )}<br><br>
+          <p>${movieData.fullplot}</p>
+          <strong>Cast:</strong> ${
+            movieData.cast.length > 0 ? movieData.cast.join(", ") : "N/A"
+          }<br><br>
+          <strong>Awards:</strong> ${movieData.awards.text}<br>
+          <strong>IMDB Rating:</strong> ${movieData.imdb.rating} (${
+            movieData.imdb.votes
+          } votes)
+      `;
         });
 
       const detailsModal = new bootstrap.Modal(
