@@ -66,7 +66,7 @@ app.get("/api/movies/:id", (req, res) => {
   db.getMovieById(movieId)
     .then((movie) => {
       if (movie) {
-        res.json({ message: `Get a movie with ID: ${movie}` }); // Return the movie object to the client
+        res.json(movie); // Return the movie object to the client
       } else {
         res.status(204).end(); // Return a status code 204 if movie not found
       }

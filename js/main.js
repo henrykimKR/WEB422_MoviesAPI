@@ -4,7 +4,9 @@
  *  No part of this assignment has been copied manually or electronically from any other source
  *  (including web sites) or distributed to other students.
  *
- *  Name: ___Seonghoon Kim_______ Student ID: ____143080216______ Date: ___2023-06-02____
+ *  Name: Seonghoon Kim
+ *  Student ID: 143080216
+ *  Date: 2023-06-02
  *
  ********************************************************************************/
 
@@ -28,7 +30,7 @@ function loadMovieData(title = null) {
     : pagination.classList.remove("d-none");
   fetch(url)
     .then((res) => {
-      console.log(res);
+      console.log(res); // 확인용
       return res.json();
     })
     .then((data) => {
@@ -81,11 +83,13 @@ function addClickEventsToRows() {
       fetch(`https://angry-puce-kitten.cyclic.app/api/movies/${movieId}`)
         .then((res) => res.json())
         .then((movieData) => {
-          //   console.log(movieData);
+          console.log(movieData); // 확인용
           const modalTitle = document.querySelector(
             "#detailsModal .modal-title"
           );
           modalTitle.innerHTML = movieData.title;
+
+          console.log(movieData.awards); // 확인용
 
           const modalBody = document.querySelector("#detailsModal .modal-body");
           modalBody.innerHTML = `
