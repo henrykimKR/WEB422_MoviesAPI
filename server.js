@@ -22,17 +22,16 @@ const HTTP_PORT = process.env.PORT || 8080;
 
 app.use(express.static(__dirname));
 
-app.get("/", (req, res) => {
-  //
-  res.sendFile(path.join(__dirname, "index.html"));
-});
-
 app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ message: "API Listening" });
+  res.sendFile(path.join(__dirname, "index.html"));
 });
+
+// app.get("/", (req, res) => {
+//   res.json({ message: "API Listening" });
+// });
 
 // Routes
 // POST /api/movies (Add new)
@@ -112,6 +111,7 @@ app.delete("/api/movies/:id", (req, res) => {
     });
 });
 
+// According to Prof's feedback, the codes below has moved to the end of the file.
 // Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
