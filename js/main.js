@@ -16,8 +16,8 @@ const perPage = 10;
 // Loading The Data
 function loadMovieData(title = null) {
   let url = title
-    ? `/api/movies?page=${page}&perPage=${perPage}&title=${title}`
-    : `/api/movies?page=${page}&perPage=${perPage}`;
+    ? `https://angry-puce-kitten.cyclic.app/api/movies?page=${page}&perPage=${perPage}&title=${title}`
+    : `https://angry-puce-kitten.cyclic.app/api/movies?page=${page}&perPage=${perPage}`;
 
   // Saves an element with a .pagination class to a pagination variable.
   const pagination = document.querySelector(".pagination");
@@ -28,7 +28,7 @@ function loadMovieData(title = null) {
     : pagination.classList.remove("d-none");
   fetch(url)
     .then((res) => {
-      //   console.log(res);
+      console.log(res);
       return res.json();
     })
     .then((data) => {
@@ -73,14 +73,19 @@ function addClickEventsToRows() {
   rows.forEach((row) => {
     row.addEventListener("click", () => {
       const movieId = row.getAttribute("data-id");
-      fetch(`/api/movies/${movieId}`)
+      // 확인용
+      console.log(movieId);
+      const url = `https://angry-puce-kitten.cyclic.app/api/movies/${movieId}`;
+      console.log(url);
+
+      fetch(`https://angry-puce-kitten.cyclic.app/api/movies/${movieId}`)
         .then((res) => res.json())
         .then((movieData) => {
           //   console.log(movieData);
           const modalTitle = document.querySelector(
             "#detailsModal .modal-title"
           );
-          modalTitle.textContent = movieData.title;
+          modalTitle.innerHTML = movieData.title;
 
           const modalBody = document.querySelector("#detailsModal .modal-body");
           modalBody.innerHTML = `
